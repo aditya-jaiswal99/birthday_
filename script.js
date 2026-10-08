@@ -25,25 +25,31 @@ And I hope we create many, many more beautiful memories together. ♾️`;
 let letterIndex = 0;
 
 function typeLetter() {
+
     const letterElement = document.getElementById("letterText");
 
-    if (letterElement === null) {
+    if (!letterElement) {
         return;
     }
 
     if (letterIndex < loveLetter.length) {
+
         letterElement.innerHTML += loveLetter.charAt(letterIndex);
+
         letterIndex++;
 
         setTimeout(typeLetter, 35);
     }
 }
 
+
+// Start letter animation
 typeLetter();
 
 
+
 // ===============================
-// CELEBRATION
+// HEART SHOWER / CELEBRATION
 // ===============================
 
 function celebrate() {
@@ -60,6 +66,7 @@ function celebrate() {
         heart.style.position = "fixed";
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.top = "-20px";
+
         heart.style.fontSize =
             15 + Math.random() * 25 + "px";
 
@@ -97,67 +104,7 @@ function celebrate() {
 }
 
 
-// ===============================
-// BACKGROUND MUSIC
-// ===============================
 
-let musicStarted = false;
-
-function getMusic() {
-    return document.getElementById("bgMusic");
-}
-
-function toggleMusic() {
-
-    const music = getMusic();
-
-    if (!music) {
-        console.log("bgMusic not found");
-        return;
-    }
-
-    if (music.paused) {
-
-        music.play()
-            .then(function () {
-                musicStarted = true;
-                console.log("Music playing ❤️");
-            })
-            .catch(function (error) {
-                console.log("Music could not start:", error);
-            });
-
-    } else {
-
-        music.pause();
-        console.log("Music paused");
-    }
-}
-
-
-// ===============================
-// START MUSIC AFTER USER CLICK
-// ===============================
-
-document.addEventListener("click", function () {
-
-    const music = getMusic();
-
-    if (!music || musicStarted) {
-        return;
-    }
-
-    music.play()
-        .then(function () {
-            musicStarted = true;
-            console.log("Music started ❤️");
-        })
-        .catch(function () {
-            // Browser blocked autoplay.
-            // Music will start when Music button is clicked.
-        });
-
-}, { once: true });
 // ===============================
 // BACKGROUND MUSIC
 // ===============================
@@ -178,14 +125,18 @@ function toggleMusic() {
 
         music.play()
             .then(function () {
+
                 musicStarted = true;
 
                 if (musicBtn) {
                     musicBtn.innerHTML = "🎵 Music ON";
                 }
+
             })
             .catch(function (error) {
+
                 console.log("Music play blocked:", error);
+
             });
 
     } else {
@@ -197,3 +148,37 @@ function toggleMusic() {
         }
     }
 }
+
+
+// ===============================
+// START MUSIC AFTER USER CLICK
+// ===============================
+
+document.addEventListener("click", function () {
+
+    const music = document.getElementById("bgMusic");
+
+    if (!music || musicStarted) {
+        return;
+    }
+
+    music.play()
+        .then(function () {
+
+            musicStarted = true;
+
+            const musicBtn =
+                document.getElementById("musicBtn");
+
+            if (musicBtn) {
+                musicBtn.innerHTML = "🎵 Music ON";
+            }
+
+        })
+        .catch(function () {
+
+            console.log("Browser blocked automatic music.");
+
+        });
+
+}, { once: true });
